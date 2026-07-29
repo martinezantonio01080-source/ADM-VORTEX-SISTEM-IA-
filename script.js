@@ -1,5 +1,7 @@
-async function getRealWeather(city, apiKey) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric&lang=en`;
+async function getStateWeather(stateOrRegion, countryCode, apiKey) {
+    // OpenWeatherMap allows searching by state/region and country code using geocoding or direct query formatting
+    const query = `${encodeURIComponent(stateOrRegion)},${encodeURIComponent(countryCode)}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${apiKey}&units=metric&lang=en`;
     
     try {
         const response = await fetch(url);
@@ -17,11 +19,12 @@ async function getRealWeather(city, apiKey) {
         
         return {
             success: true,
-            city: data.name,
+            location: `${data.name}, ${data.sys.country}`,
             temperature: temp,
             feelsLike: data.main.feels_like,
             humidity: data.main.humidity,
-            condition: data.weather[0].description
+            condition: data.weather[0].description,
+            windSpeed: data.wind.speed
         };
         
     } catch (error) {
@@ -33,5 +36,5 @@ async function getRealWeather(city, apiKey) {
 }
 
 // Example usage:
-// getRealWeather("New York", "YOUR_API_KEY")
+// getStateWeather("Jalisco", "MX", "YOUR_API_KEY")
 //     .then(result => console.log(result));
