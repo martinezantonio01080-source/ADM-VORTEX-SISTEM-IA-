@@ -1,45 +1,37 @@
-class ADMVortexSystem {
-    constructor() {
-        this.feedrate = 100.0;
-        this.baselineVibration = 1.5;
-    }
-
-    processTelemetry() {
-        const vibration = +(Math.random() * (3.0 - 1.0) + 1.0).toFixed(2);
-        const temp = +(Math.random() * (90.0 - 70.0) + 70.0).toFixed(1);
-        const load = +(Math.random() * (75.0 - 20.0) + 20.0).toFixed(1);
-
-        let logMsg = `[Telemetry] Vib: ${vibration}G | Temp: ${temp}°C | Load: ${load}%\n`;
-
-        if (vibration > (this.baselineVibration * 1.5)) {
-            logMsg += `🚨 [ALERT] Critical harmonic vibration! Reducing speed.\n`;
-            this.adjustFeedrate(-35.0);
-        } else if (load > 70.0 || temp > 85.0) {
-            logMsg += `⚠️ [WARNING] High load/temp. Adjusting safety.\n`;
-            this.adjustFeedrate(-10.0);
-        } else {
-            if (this.feedrate < 105.0) {
-                logMsg += `✅ [OPTIMIZE] System stable. Boosting performance.\n`;
-                this.adjustFeedrate(0.5);
-            }
+async function obtenerClimaReal(ciudad, apiKey) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(ciudad)}&appid=${apiKey}&units=metric&lang=es`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status} - ${response.statusText}`);
         }
-        logMsg += `⚡ [Hardware] Feedrate: ${this.feedrate.toFixed(1)}%\n-----------------------------------\n`;
-        return logMsg;
-    }
-
-    adjustFeedrate(delta) {
-        this.feedrate = Math.max(10.0, Math.min(110.0, this.feedrate + delta));
+        
+        const data = await response.json();
+        const temp = data.main.temp;
+        
+        // Capa de validación estricta de seguridad contra alucinaciones térmicas
+        if (temp < -80 || temp > 60) {
+            throw new Error("Temperatura fuera de rangos físicos terrestres lógicos.");
+        }
+        
+        return {
+            exito: true,
+            ciudad: data.name,
+            temperatura: temp,
+            sensacionTermica: data.main.feels_like,
+            humedad: data.main.humidity,
+            condicion: data.weather[0].description
+        };
+        
+    } catch (error) {
+        return {
+            exito: false,
+            error: error.message
+        };
     }
 }
 
-const vortex = new ADMVortexSystem();
-const logBox = document.getElementById('console-log');
-
-function startSimulation() {
-    logBox.innerText = ">>> INITIATING VORTEX EDGE CYCLES <<<\n\n";
-    for (let i = 1; i <= 3; i++) {
-        setTimeout(() => {
-            logBox.innerText += `--- Cycle #${i} ---\n` + vortex.processTelemetry();
-        }, i * 400);
-    }
-}
+// Ejemplo de uso:
+// obtenerClimaReal("Ciudad de México", "TU_API_KEY")
+//     .then(resultado => console.log(resultado));
