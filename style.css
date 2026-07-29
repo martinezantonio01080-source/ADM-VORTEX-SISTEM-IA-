@@ -1,49 +1,88 @@
 body {
-    background-color: #0f172a;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
     color: #f8fafc;
-    font-family: monospace;
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
-h1 {
-    color: #38bdf8;
+.weather-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    width: 380px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.weather-card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
     text-align: center;
+    background: linear-gradient(90deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.subtitle {
-    text-align: center;
-}
-
-.panel {
-    background: #1e293b;
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: rgba(15, 23, 42, 0.6);
     border: 1px solid #334155;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #38bdf8;
 }
 
 button {
-    background: #0284c7;
-    color: white;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
-    border-radius: 4px;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.result-box {
+    margin-top: 20px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     margin-top: 10px;
 }
 
-button:hover { 
-    background: #0369a1; 
-}
-
-pre {
-    background: #090d16;
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
-    color: #4ade80;
-    max-height: 300px;
+.metric-item {
+    background: rgba(30, 41, 59, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9rem;
 }
