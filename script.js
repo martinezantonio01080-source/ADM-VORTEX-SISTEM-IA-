@@ -1,21 +1,22 @@
 
-const apiKey = "AQUÍ_TU_API_KEY_REAL"; // Reemplaza con tu llave de OpenWeatherMap
+// API Configuration
+const apiKey = "YOUR_REAL_API_KEY_HERE"; // Replace with your actual OpenWeatherMap API key
 
 async function handleSearch() {
     const locationInput = document.getElementById('stateInput').value.trim();
     const resultDiv = document.getElementById('result');
     
-    // Validación de campo vacío
+    // Validate empty field
     if (!locationInput) {
         resultDiv.innerHTML = `<div style="color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 10px; border-radius: 8px;">Please enter any global location.</div>`;
         return;
     }
     
-    // Mensaje de carga universal
+    // Universal loading message
     resultDiv.innerHTML = `<div style="color: #38bdf8;">Scanning global meteorological network...</div>`;
     
     try {
-        // Paso 1: Usar la API de Geocodificación para encontrar cualquier ciudad/lugar del mundo
+        // Step 1: Use Geocoding API to find any city or place in the world
         const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(locationInput)}&limit=1&appid=${apiKey}`;
         const geoResponse = await fetch(geoUrl);
         const geoData = await geoResponse.json();
@@ -27,7 +28,7 @@ async function handleSearch() {
         const { lat, lon, name, country, state } = geoData[0];
         const stateName = state ? `, ${state}` : '';
         
-        // Paso 2: Consultar el clima exacto usando latitud y longitud (funciona para todo el planeta)
+        // Step 2: Fetch exact weather using latitude and longitude (works worldwide)
         const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
         const weatherResponse = await fetch(weatherUrl);
         const weatherData = await weatherResponse.json();
@@ -36,14 +37,14 @@ async function handleSearch() {
             throw new Error("Could not retrieve weather metrics.");
         }
         
-        // Extraer los datos meteorológicos
+        // Extract weather metrics
         const temp = Math.round(weatherData.main.temp);
         const feelsLike = Math.round(weatherData.main.feels_like);
         const humidity = weatherData.main.humidity;
         const windSpeed = weatherData.wind.speed;
         const condition = weatherData.weather[0].description;
         
-        // Renderizar la información global en pantalla
+        // Render global information on screen
         resultDiv.innerHTML = `
             <div style="font-size: 1.1rem; font-weight: bold; color: #38bdf8; margin-bottom: 8px;">📍 ${name}${stateName}, ${country}</div>
             <div style="font-size: 2.5rem; font-weight: 800; text-align: center; margin: 10px 0; color: #ffffff;">
