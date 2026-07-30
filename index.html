@@ -1,15 +1,22 @@
-<div class="weather-container">
-    <div class="header-badge">Build with Gemini XPRIZE</div>
-    <h2>Atmospheric & Climate AI</h2>
-    <p class="subtitle">Real-time regional telemetry & analysis</p>
+<div class="widget-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <h1 class="app-title" style="margin: 0;">ATMOS_AI // CORE</h1>
+        <span style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.1); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: monospace;">SYS.ONLINE</span>
+    </div>
+    <p class="app-subtitle">Global meteorological telemetry interface v2.4</p>
     
     <div class="input-group">
-        <input type="text" id="stateInput" placeholder="State / Region (e.g., Jalisco)">
-        <input type="text" id="countryInput" placeholder="Country Code (e.g., MX)">
-        <button id="searchBtn" onclick="handleSearch()">Analyze Region</button>
+        <div style="font-size: 0.75rem; color: #94a3b8; text-align: left; font-family: monospace; margin-bottom: -4px;">// TARGET_CITY</div>
+        <input type="text" id="stateInput" class="custom-input" placeholder="e.g., Tokyo">
+        
+        <div style="font-size: 0.75rem; color: #94a3b8; text-align: left; font-family: monospace; margin-bottom: -4px;">// COUNTRY_CODE</div>
+        <input type="text" id="countryInput" class="custom-input" placeholder="e.g., JP">
     </div>
     
+    <button onclick="handleSearch()" class="search-btn">[ EXECUTE_QUERY ]</button>
+    
     <div id="result" class="result-box">
-        <div class="placeholder-text">Enter a state and country code to fetch live data.</div>
+        <p class="status-message">&gt; Waiting for parameters...</p>
     </div>
 </div>
+
