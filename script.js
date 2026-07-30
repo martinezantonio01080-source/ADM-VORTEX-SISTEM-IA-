@@ -1,6 +1,5 @@
-
 // API Configuration
-const apiKey = "YOUR_REAL_API_KEY_HERE"; // Replace with your actual OpenWeatherMap API key
+ apiKey = "YOUR_REAL_API_KEY_HERE"; // Replace with your actual OpenWeatherMap API key
 
 async function handleSearch() {
     const locationInput = document.getElementById('stateInput').value.trim();
