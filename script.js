@@ -1,66 +1,68 @@
-// API Configuration
-const apiKey = "YOUR_REAL_API_KEY_HERE"; // Replace this with your actual OpenWeatherMap API key
+// Configuración de la API
+const apiKey = "AQUÍ_TU_API_KEY_REAL"; // Reemplaza con tu llave de OpenWeatherMap
 
 async function handleSearch() {
     const locationInput = document.getElementById('stateInput').value.trim();
-    const countryInput = document.getElementById('countryInput') ? document.getElementById('countryInput').value.trim() : '';
     const resultDiv = document.getElementById('result');
     
-    // Validate empty fields
+    // Validación de campo vacío
     if (!locationInput) {
-        resultDiv.innerHTML = `<div class="error-message" style="color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 10px; border-radius: 8px;">Please enter a location.</div>`;
+        resultDiv.innerHTML = `<div style="color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 10px; border-radius: 8px;">Please enter any global location.</div>`;
         return;
     }
     
-    // Initial loading message
-    resultDiv.innerHTML = `<div class="placeholder-text" style="color: #38bdf8;">Connecting to telemetry network...</div>`;
-    
-    // Build query (attaches country if provided for higher accuracy)
-    const query = countryInput ? `${locationInput},${countryInput}` : locationInput;
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(query)}&units=metric&appid=${apiKey}`;
+    // Mensaje de carga universal
+    resultDiv.innerHTML = `<div style="color: #38bdf8;">Scanning global meteorological network...</div>`;
     
     try {
-        const response = await fetch(url);
-        const data = await response.json();
+        // Paso 1: Usar la API de Geocodificación para encontrar cualquier ciudad/lugar del mundo
+        const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(locationInput)}&limit=1&appid=${apiKey}`;
+        const geoResponse = await fetch(geoUrl);
+        const geoData = await geoResponse.json();
         
-        // Validate if API responded with an error (e.g. 404 city not found, 401 invalid key)
-        if (!response.ok) {
-            throw new Error(data.message || "Failed to retrieve information.");
+        if (!geoResponse.ok || geoData.length === 0) {
+            throw new Error("Location not found anywhere on Earth.");
         }
         
-        // Extract key data from response
-        const cityName = data.name;
-        const countryCode = data.sys.country;
-        const temp = Math.round(data.main.temp);
-        const feelsLike = Math.round(data.main.feels_like);
-        const humidity = data.main.humidity;
-        const windSpeed = data.wind.speed;
-        const condition = data.weather[0].description;
+        const { lat, lon, name, country, state } = geoData[0];
+        const stateName = state ? `, ${state}` : '';
         
-        // Render results visually in the card
+        // Paso 2: Consultar el clima exacto usando latitud y longitud (funciona para todo el planeta)
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+        const weatherResponse = await fetch(weatherUrl);
+        const weatherData = await weatherResponse.json();
+        
+        if (!weatherResponse.ok) {
+            throw new Error("Could not retrieve weather metrics.");
+        }
+        
+        // Extraer los datos meteorológicos
+        const temp = Math.round(weatherData.main.temp);
+        const feelsLike = Math.round(weatherData.main.feels_like);
+        const humidity = weatherData.main.humidity;
+        const windSpeed = weatherData.wind.speed;
+        const condition = weatherData.weather[0].description;
+        
+        // Renderizar la información global en pantalla
         resultDiv.innerHTML = `
-            <div style="font-size: 1.1rem; font-weight: bold; color: #38bdf8; margin-bottom: 8px;">📍 ${cityName}, ${countryCode}</div>
+            <div style="font-size: 1.1rem; font-weight: bold; color: #38bdf8; margin-bottom: 8px;">📍 ${name}${stateName}, ${country}</div>
             <div style="font-size: 2.5rem; font-weight: 800; text-align: center; margin: 10px 0; color: #ffffff;">
                 ${temp}°C
             </div>
-            <div class="result-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px;">
-                <div class="metric-item" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem;">Feels Like: <strong style="display:block; color:#fff;">${feelsLike}°C</strong></div>
-                <div class="metric-item" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem;">Humidity: <strong style="display:block; color:#fff;">${humidity}%</strong></div>
-                <div class="metric-item" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem;">Wind Speed: <strong style="display:block; color:#fff;">${windSpeed} m/s</strong></div>
-                <div class="metric-item" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem; text-transform: capitalize;">Condition: <strong style="display:block; color:#fff;">${condition}</strong></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px;">
+                <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem;">Feels Like: <strong style="display:block; color:#fff;">${feelsLike}°C</strong></div>
+                <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem;">Humidity: <strong style="display:block; color:#fff;">${humidity}%</strong></div>
+                <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem;">Wind Speed: <strong style="display:block; color:#fff;">${windSpeed} m/s</strong></div>
+                <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.9rem; text-transform: capitalize;">Condition: <strong style="display:block; color:#fff;">${condition}</strong></div>
             </div>
         `;
         
     } catch (error) {
-        // User-friendly error handling on screen
-        console.error("Fetch error:", error);
-        let errorMsg = "An error occurred while fetching the weather.";
-        if (error.message.includes("city not found")) {
-            errorMsg = "Location not found. Please check the name.";
-        } else if (error.message.includes("Invalid API key")) {
-            errorMsg = "The OpenWeatherMap API key is invalid or still activating.";
+        console.error("Global search error:", error);
+        let errorMsg = "An error occurred while fetching global weather.";
+        if (error.message.includes("Location not found")) {
+            errorMsg = "We couldn't find that place on the map. Try another location.";
         }
-        
-        resultDiv.innerHTML = `<div class="error-message" style="color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 10px; border-radius: 8px;">⚠️ ${errorMsg}</div>`;
+        resultDiv.innerHTML = `<div style="color: #f87171; background: rgba(248, 113, 113, 0.1); padding: 10px; border-radius: 8px;">⚠️ ${errorMsg}</div>`;
     }
 }
