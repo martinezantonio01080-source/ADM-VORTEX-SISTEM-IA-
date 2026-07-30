@@ -1,4 +1,4 @@
-// Configuración de la API
+
 const apiKey = "AQUÍ_TU_API_KEY_REAL"; // Reemplaza con tu llave de OpenWeatherMap
 
 async function handleSearch() {
