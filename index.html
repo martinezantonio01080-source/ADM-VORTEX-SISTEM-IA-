@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validador Universal de Taller Clandestino</title>
+    <title>Underground Workshop Universal Validator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Validador Clandestino</h1>
-    <div class="subtitle">// Sistema de Homologación Rústica v2.1</div>
+    <h1>Underground Validator</h1>
+    <div class="subtitle">// Rustic Homologation System v2.1</div>
     
     <div class="form-group">
-        <label for="projectName">Nombre del Proyecto / Experimento:</label>
-        <input type="text" id="projectName" placeholder="Ej. Cableado con cinta de aislar...">
+        <label for="projectName">Project / Experiment Name:</label>
+        <input type="text" id="projectName" placeholder="Ex. Wiring with electrical tape...">
     </div>
     
-    <button onclick="generateCertificate()">Generar Certificado</button>
+    <button onclick="generateCertificate()">Generate Certificate</button>
 
     <div id="certificate">
-        <div class="cert-header">INSTITUTO CLANDESTINO DE HOMOLOGACIÓN RÚSTICA</div>
+        <div class="cert-header">UNDERGROUND RUSTIC HOMOLOGATION INSTITUTE</div>
         <div class="cert-body">
-            <p>Se certifica formalmente que el proyecto:</p>
-            <p><span class="highlight" id="resName">[NOMBRE]</span></p>
-            <p>Ha superado las pruebas de estrés del taller, operando oficialmente bajo el régimen de: <span class="highlight">SOLDADURA FRÍA Y ALAMBRE QUEMADO</span>.</p>
-            <div class="stamp">Aprobado a Trancazos</div>
+            <p>It is formally certified that the project:</p>
+            <p><span class="highlight" id="resName">[NAME]</span></p>
+            <p>Has passed the workshop stress tests, officially operating under the regime of: <span class="highlight">COLD SOLDER AND BURNT WIRE</span>.</p>
+            <div class="stamp">Approved the Hard Way</div>
         </div>
         <div class="cert-footer">
             <span id="serialNumber">SERIAL: TC-0000</span>
-            <span id="timestamp">FECHA: 2026</span>
+            <span id="timestamp">DATE: 2026</span>
         </div>
         <div class="legal-disclaimer">
-            "Cualquier parecido con alguna institución real es pura coincidencia."
+            "Any resemblance to any real institution is purely coincidental."
         </div>
     </div>
 </div>
