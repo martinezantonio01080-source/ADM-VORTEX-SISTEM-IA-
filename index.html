@@ -10,11 +10,25 @@
 
 <div class="container">
     <h1>Underground Validator</h1>
-    <div class="subtitle">// Rustic Homologation System v2.1</div>
+    <div class="subtitle">// Rustic Homologation System v2.3</div>
     
     <div class="form-group">
         <label for="projectName">Project / Experiment Name:</label>
         <input type="text" id="projectName" placeholder="Ex. Wiring with electrical tape...">
+    </div>
+
+    <div class="form-group">
+        <label for="authorName">Developer / Creator Name:</label>
+        <input type="text" id="authorName" placeholder="Ex. Your Name or Alias...">
+    </div>
+
+    <div class="form-group">
+        <label for="techTitle">Technical Credential:</label>
+        <select id="techTitle">
+            <option value="CIT (Certified Informal Technician)">CIT (Certified Informal Technician)</option>
+            <option value="CFT (Certified Formal Technic)">CFT (Certified Formal Technic)</option>
+            <option value="Master of Cold Solder & Duct Tape">Master of Cold Solder & Duct Tape</option>
+        </select>
     </div>
     
     <button onclick="generateCertificate()">Generate Certificate</button>
@@ -23,7 +37,9 @@
         <div class="cert-header">UNDERGROUND RUSTIC HOMOLOGATION INSTITUTE</div>
         <div class="cert-body">
             <p>It is formally certified that the project:</p>
-            <p><span class="highlight" id="resName">[NAME]</span></p>
+            <p><span class="highlight" id="resName">[PROJECT NAME]</span></p>
+            <p>Developed by: <span class="highlight" id="resAuthor">[CREATOR]</span></p>
+            <p>Title Awarded: <span class="highlight" id="resTitle">[TITLE]</span></p>
             <p>Has passed the workshop stress tests, officially operating under the regime of: <span class="highlight">COLD SOLDER AND BURNT WIRE</span>.</p>
             <div class="stamp">Approved the Hard Way</div>
         </div>
