@@ -1,23 +1,42 @@
-<div class="widget-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-        <h1 class="app-title" style="margin: 0;">ATMOS_AI // CORE</h1>
-        <span style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.1); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: monospace;">SYS.ONLINE</span>
-    </div>
-    <p class="app-subtitle">Global meteorological telemetry interface v2.5</p>
-    
-    <!-- Aviso rápido para que los jueces sepan qué poner -->
-    <div style="background: rgba(59, 130, 246, 0.1); border-left: 3px solid #3b82f6; padding: 8px; margin-bottom: 1rem; font-size: 0.75rem; text-align: left; color: #93c5fd; font-family: monospace;">
-        💡 <strong>XPRIZE Note:</strong> Insert your OpenWeatherMap API key in the JS tab to activate live telemetry.
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validador Universal de Taller Clandestino</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <div class="input-group">
-        <div style="font-size: 0.75rem; color: #94a3b8; text-align: left; font-family: monospace; margin-bottom: -4px;">// LOCATION_QUERY</div>
-        <input type="text" id="locationInput" class="custom-input" placeholder="e.g., Tokyo, JP or Paris">
+<div class="container">
+    <h1>Validador Clandestino</h1>
+    <div class="subtitle">// Sistema de Homologación Rústica v2.1</div>
+    
+    <div class="form-group">
+        <label for="projectName">Nombre del Proyecto / Experimento:</label>
+        <input type="text" id="projectName" placeholder="Ej. Cableado con cinta de aislar...">
     </div>
     
-    <button onclick="handleSearch()" class="search-btn">[ EXECUTE_QUERY ]</button>
-    
-    <div id="result" class="result-box">
-        <p class="status-message">&gt; Waiting for parameters...</p>
+    <button onclick="generateCertificate()">Generar Certificado</button>
+
+    <div id="certificate">
+        <div class="cert-header">INSTITUTO CLANDESTINO DE HOMOLOGACIÓN RÚSTICA</div>
+        <div class="cert-body">
+            <p>Se certifica formalmente que el proyecto:</p>
+            <p><span class="highlight" id="resName">[NOMBRE]</span></p>
+            <p>Ha superado las pruebas de estrés del taller, operando oficialmente bajo el régimen de: <span class="highlight">SOLDADURA FRÍA Y ALAMBRE QUEMADO</span>.</p>
+            <div class="stamp">Aprobado a Trancazos</div>
+        </div>
+        <div class="cert-footer">
+            <span id="serialNumber">SERIAL: TC-0000</span>
+            <span id="timestamp">FECHA: 2026</span>
+        </div>
+        <div class="legal-disclaimer">
+            "Cualquier parecido con alguna institución real es pura coincidencia."
+        </div>
     </div>
 </div>
+
+<script src="script.js"></script>
+</body>
+</html>
